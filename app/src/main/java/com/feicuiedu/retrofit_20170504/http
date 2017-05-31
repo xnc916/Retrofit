@@ -1,0 +1,88 @@
+OkHttp的使用
+1. 依赖添加
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+2. 使用
+    构建GET和POST请求
+3. Call 模型
+    对一次请求和响应做管理，不管中间进行了多少新的请求和响应
+    构建：okHttpClient.newCall(request);
+    执行：execute(),enqueue();
+    取消：call.cancel();
+4. 功能：拦截器是OkHttp的功能
+    日志拦截器:
+    1. 依赖添加：
+        compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
+    2. 创建设置给OkHttpClient
+    作用：查看请求和响应的内容
+5. 优化处理：
+    OkHttpClient的单例封装
+    将请求都统一写到网络请求类里面
+
+6. 表单和多部分的请求构建
+
+7. 如何可以做UI的操作？
+    Handle
+    runOnUiThread:Activity的方法
+    自定义一个Callback：可以做UI的操作
+    Retrofit
+
+总结：
+OkHttp的使用：
+1. 创建和使用的流程：GET、POST、POST/Form、POST/Mult等请求
+2. call模型
+3. 拦截器：日志拦截器、（自定义拦截器）
+4. 将OkHttpClient优化：单例类，让整个应用只持有一个OkHttpClient的实例
+5. 如何更新UI
+
+任务：
+将OkHttp的使用理解清楚
+预习：Retrofit
+    Retrofit的注解希望提前看一下
+
+20170505:
+Retrofit网络请求的框架
+1. 介绍：基于OkHttp的进行的封装，新增了很多功能，很多已经做了优化
+    1. 构建请求：通过注解的方式，将Request API 转换为java接口
+        注解的方式：请求(请求方式、地址、头信息、体等)所用到的方法或者类优化为使用注解
+    2. Callback回调的方法运行在后台线程，Retrofit的回调是运行在主线程，可以做UI的操作的
+    3. 拿到结果之后需要解析的，转换器的概念(可以通过添加GSON、XML等装换器实现自动的解析和转换)
+
+    10:45 开始讲解。
+2. 使用：
+    1. 依赖添加：
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    2. 创建和使用
+        1. 创建核心类
+        mRetrofit = new Retrofit.Builder()
+                        .baseUrl("https://api.github.com")// 设置baseUrl
+                        .client(okHttpClient)// 设置OkHttpClient
+                        .build();
+        2. 构建请求
+        @GET("https://api.github.com/search/repositories?q=language:java&page=1")
+            Call<ResponseBody> getData();
+        3. 实现请求接口
+        RetrofitApi retrofitApi = mRetrofit.create(RetrofitApi.class);
+
+3. Retrofit构建请求的注解说明
+
+4. Retrofit 转换器的功能
+    Gson转换器
+    数据(Json字符串) <--> 实体类或集合
+    1. 依赖添加：
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    2. 使用
+        设置给Retrofit
+    3. 请求构建的Call模型的泛型就可以直接填入相应的响应体具体实体类类型
+
+16:50开始讲解。
+
+MVP的使用总结：
+MVP的使用主要包括4个内容：
+1. View：视图，主要体现为Activity、Fragment、自定义的视图等
+         负责UI、用户的交互
+2. View interface：需要View做具体实现的接口，业务过程中的视图交互。
+         View和Presenter的交互就是通过View interface来进行。
+         降低耦合性。
+3. Model：数据模型，数据的存取和处理等，主要体现在网络请求、数据库存取等。
+4. Presenter：中间人，作为View和Model交互的中间人，处理与用户的逻辑。
+

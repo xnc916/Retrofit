@@ -1,0 +1,569 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>GitHub API简单文档</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>简述</h1>
+<p>GitHub API是标准的RESTful架构，通过GitHub API，你能实现几乎所有的GitHub功能。其官方文档为<a href="https://developer.github.com/v3/">GitHub API v3</a>。</p>
+<p>以下的内容来自其官方文档，接口中省略了一些我们不需要的参数。</p>
+<p>另外，凡是没有写完整的url路径的地方，都是以<code>https://api.github.com</code>为URL端点。</p>
+<h1><a href="https://developer.github.com/v3/oauth/#scopes">OAuth流程</a></h1>
+<h2>1. 重定向用户到GitHub登录页面</h2>
+<pre><code>GET https://github.com/login/oauth/authorize
+</code></pre>
+
+<h3>参数</h3>
+<table>
+<thead>
+<tr>
+	<th>名称</th>
+	<th>类型</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>client_id</td>
+	<td>string</td>
+	<td><strong>必要</strong>。 这是当你在GitHub上注册App时获得的Client Id。</td>
+</tr>
+<tr>
+	<td>scope</td>
+	<td>string</td>
+	<td>一个<a href="https://developer.github.com/v3/oauth/#scopes">可访问域</a>的列表。如果不提供，默认是空列表，代表用户没有给应用授权任何权限。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>我们应用中使用的scope包括：</p>
+<ol>
+<li>user : 读写用户信息；</li>
+<li>public_repo : 该用户公有库的访问权限，关注(starring)其他公有库的权限;</li>
+<li>repo : 该用户公有和私有库的访问权限。</li>
+</ol>
+</blockquote>
+<h2>2. 获取访问令牌</h2>
+<p>如果用户接受你的请求，GitHub会重定向到你的网址，并使用<code>code</code>参数给你一个临时授权码。</p>
+<p>然后，你要使用此授权码换取访问令牌(access token):</p>
+<pre><code>POST https://github.com/login/oauth/access_token
+</code></pre>
+
+<h3>参数</h3>
+<table>
+<thead>
+<tr>
+	<th>名称</th>
+	<th>类型</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>client_id</td>
+	<td>string</td>
+	<td><strong>必要</strong>。 这是当你在GitHub上注册App时获得的Client Id。</td>
+</tr>
+<tr>
+	<td>client_secret</td>
+	<td>string</td>
+	<td><strong>必要</strong>。 这是当你在GitHub上注册App时获得的Client secret。</td>
+</tr>
+<tr>
+	<td>code</td>
+	<td>string</td>
+	<td><strong>必要</strong>。前一步获取到的临时授权码。</td>
+</tr>
+</tbody>
+</table>
+<h3>响应</h3>
+<p>默认情况下，响应将是下列形式：</p>
+<pre><code>access_token=e72e16c7e42f292c6912e7710c838347ae178b4a&amp;scope=user%2Cgist&amp;token_type=bearer
+</code></pre>
+
+<p>但也可以通过设置Accept请求头来请求不同格式的响应：</p>
+<pre><code>Accept: application/json
+{
+    &quot;access_token&quot;:&quot;e72e16c7e42f292c6912e7710c838347ae178b4a&quot;, &quot;scope&quot;:&quot;repo,gist&quot;, 
+    &quot;token_type&quot;:&quot;bearer&quot;
+}
+
+Accept: application/xml
+&lt;OAuth&gt;
+  &lt;token_type&gt;bearer&lt;/token_type&gt;
+  &lt;scope&gt;repo,gist&lt;/scope&gt;
+  &lt;access_token&gt;e72e16c7e42f292c6912e7710c838347ae178b4a&lt;/access_token&gt;
+&lt;/OAuth&gt;
+</code></pre>
+
+<h2>3. 使用访问令牌来访问API</h2>
+<p>在做API访问时，使用访问令牌的方式有两种：</p>
+<p>第一种方法是将Access Token放在查询参数中来传递：</p>
+<pre><code>GET https://api.github.com/user?access_token=...
+</code></pre>
+
+<p>更清晰的方式是将它包含在授权请求头中：</p>
+<pre><code>Authorization: token OAUTH-TOKEN
+</code></pre>
+
+<h1>其它GitHub API</h1>
+<h2><a href="https://developer.github.com/v3/users/#get-the-authenticated-user">获取当前已认证的用户信息</a></h2>
+<pre><code>GET /user
+</code></pre>
+
+<h3>响应</h3>
+<pre><code>Status: 200 OK         
+X-RateLimit-Limit: 5000  
+X-RateLimit-Remaining: 4999  
+{
+  &quot;login&quot;: &quot;octocat&quot;,    
+  &quot;id&quot;: 1,              
+  &quot;avatar_url&quot;: &quot;https://github.com/images/error/octocat_happy.gif&quot;, 
+  &quot;name&quot;: &quot;monalisa octocat&quot;, 
+}
+</code></pre>
+
+<h2><a href="https://developer.github.com/v3/search/#search-repositories">搜索仓库(热门仓库)</a></h2>
+<p>可以通过下面的接口搜索仓库，此接口除基本的三个参数外，还需要加一个分页的参数page，每页返回30条数据。</p>
+<pre><code>GET /search/repositories
+</code></pre>
+
+<h3>参数</h3>
+<table>
+<thead>
+<tr>
+	<th>名称</th>
+	<th>类型</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>q</td>
+	<td>string</td>
+	<td>搜索关键字以及其它限定符。</td>
+</tr>
+<tr>
+	<td>sort</td>
+	<td>string</td>
+	<td>排序字段，可以是<code>stars</code>，<code>fortks</code>或<code>updated</code>。默认：结果符合程度。</td>
+</tr>
+<tr>
+	<td>order</td>
+	<td>string</td>
+	<td>排序顺序，可以是<code>asc</code>或<code>desc</code>，默认是<code>desc</code>。</td>
+</tr>
+</tbody>
+</table>
+<p>参数<code>q</code>支持各种仓库搜索限定符，在我们的应用中使用的是<code>language</code>，即根据仓库使用的编程语言来搜索。</p>
+<h3>例子</h3>
+<p>搜索流行的使用Java语言开发的库：</p>
+<pre><code>https://api.github.com/search/repositories?q=language:java&amp;page=1
+</code></pre>
+
+<p>响应为：</p>
+<pre><code>HTTP/1.1 200 OK
+Link: &lt;https://api.github.com/search/repositories?q=language%3Ajava&amp;per_page=1&amp;page=2&gt;; rel=&quot;next&quot;,
+      &lt;https://api.github.com/search/repositories?q=language%3Ajava&amp;per_page=1&amp;page=1000&gt;; rel=&quot;last&quot;
+
+{
+  &quot;total_count&quot;: 2074901,
+  &quot;incomplete_results&quot;: false,
+  &quot;items&quot;: [
+    {
+      &quot;id&quot;: 29028775,
+      &quot;name&quot;: &quot;react-native&quot;,
+      &quot;full_name&quot;: &quot;facebook/react-native&quot;,
+      &quot;owner&quot;: {
+        &quot;login&quot;: &quot;facebook&quot;,
+        &quot;id&quot;: 69631,
+        &quot;avatar_url&quot;: &quot;https://avatars.githubusercontent.com/u/69631?v=3&quot;,
+      },
+      &quot;description&quot;: &quot;A framework for building native apps with React.&quot;,
+      &quot;stargazers_count&quot;: 33961,
+      &quot;forks_count&quot;: 7122,
+    },
+    ......
+  ]
+}
+</code></pre>
+
+<h2><a href="https://developer.github.com/v3/repos/contents/#get-the-readme">获取某一仓库的README文件</a></h2>
+<p>下面的方法将返回对应仓库的README文件，此文件是一个Markdown格式的文件，接口返回的响应是通过base64加密后的数据，需要进行base64的解密，才可以拿到真实的响应数据：</p>
+<pre><code>GET /repos/{owner}/{repo}/readme
+</code></pre>
+
+<h3>响应：</h3>
+<pre><code>{
+  &quot;encoding&quot;: &quot;base64&quot;,
+  &quot;content&quot;: &quot;encoded content ...&quot;
+}
+</code></pre>
+
+<h2><a href="https://developer.github.com/v3/markdown/#render-a-markdown-document-in-raw-mode">获取Markdown文档的原始文件</a></h2><p>此API的返回响应不是JSON字符串，而是可以通过添加请求头信息<code>text/plain</code>，以纯文本形式接收，最终返回的结果是HTML的文本，可以直接通过WebView加载即可。</p>
+
+<pre><code>POST /markdown/raw
+</code></pre>
+
+<h3>参数</h3>
+<p>添加请求头信息<code>
+Content-Type:text/plain</code>接收Markdown文档，返回该文档对应的原始文件。</p>
+<h3>响应</h3>
+<p>例如：</p>
+<pre><code>Status: 200 OK
+Content-Type: text/html
+X-RateLimit-Limit: 5000
+X-RateLimit-Remaining: 4999
+
+&lt;p&gt;Hello world github/linguist#1 &lt;strong&gt;cool&lt;/strong&gt;, and #1!&lt;/p&gt;
+</code></pre>
+
+<h2><a href="https://developer.github.com/v3/search/#search-users">搜索用户</a></h2>
+<p>通过各种条件查询用户，每页默认30条：</p>
+<pre><code>GET /search/users
+</code></pre>
+
+<h3>参数</h3>
+<table>
+<thead>
+<tr>
+	<th>名称</th>
+	<th>类型</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>q</td>
+	<td>string</td>
+	<td>搜索条件。</td>
+</tr>
+<tr>
+	<td>sort</td>
+	<td>string</td>
+	<td>排序字段，可以是<code>followers</code>，<code>repositories</code>或<code>joined</code>。默认：结果符合程度。</td>
+</tr>
+<tr>
+	<td>order</td>
+	<td>string</td>
+	<td>排序顺序，可以是<code>asc</code>或<code>desc</code>，默认是<code>desc</code>。</td>
+</tr>
+</tbody>
+</table>
+<h3>例子</h3>
+<p>假设你在查询流行开发者列表，你可以试试这样查询：</p>
+<pre><code>https://api.github.com/search/users?q=repos:>42&followers:>1000
+</code></pre>
+
+<p>这里，我们是在查询仓库数大于42，follower数量大于1000的开发者。</p>
+<pre><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
+      &lt;https://api.github.com/resource?page=5&gt;; rel=&quot;last&quot;
+X-RateLimit-Limit: 20
+X-RateLimit-Remaining: 19
+{
+  &quot;total_count&quot;: 12,
+  &quot;incomplete_results&quot;: false,
+  &quot;items&quot;: [
+    {
+      &quot;login&quot;: &quot;mojombo&quot;,
+      &quot;id&quot;: 1,
+      &quot;avatar_url&quot;: &quot;https://secure.gravatar.com/avatar/25c7c18223fb42a4c6ae1c8db6f50f9b?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&quot;,
+      &quot;type&quot;: &quot;User&quot;,
+      &quot;score&quot;: 105.47857
+    }
+  ]
+}
+</code></pre>
+
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
